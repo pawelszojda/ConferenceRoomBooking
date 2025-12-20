@@ -1,0 +1,92 @@
+@model ConferenceRoomBooking.Models.Reservation
+@{
+    ViewData["Title"] = "Szczegóły rezerwacji (Admin)";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <dl class="row">
+            <dt class="col-sm-4">ID Rezerwacji</dt>
+            <dd class="col-sm-8">@Model.Id</dd>
+            
+            <dt class="col-sm-4">Użytkownik</dt>
+            <dd class="col-sm-8">
+                @Model.User.Email
+                <br />
+                <small class="text-muted">ID: @Model.UserId</small>
+            </dd>
+            
+            <dt class="col-sm-4">Sala</dt>
+            <dd class="col-sm-8">
+                <a asp-controller="ConferenceRooms" asp-action="Details" asp-route-id="@Model.RoomId">
+                    @Model.Room.Name
+                </a>
+            </dd>
+            
+            <dt class="col-sm-4">Data rozpoczęcia</dt>
+            <dd class="col-sm-8">@Model.StartTime.ToString("dd.MM.yyyy HH:mm")</dd>
+            
+            <dt class="col-sm-4">Data zakończenia</dt>
+            <dd class="col-sm-8">@Model.EndTime.ToString("dd.MM.yyyy HH:mm")</dd>
+            
+            <dt class="col-sm-4">Czas trwania</dt>
+            <dd class="col-sm-8">@((Model.EndTime - Model.StartTime).TotalHours.ToString("0.0")) godzin(y)</dd>
+            
+            <dt class="col-sm-4">Koszt</dt>
+            <dd class="col-sm-8">
+                @{
+                    var hours = (decimal)(Model.EndTime - Model.StartTime).TotalHours;
+                    var cost = hours * Model.Room.PricePerHour;
+                }
+                @cost.ToString("C") (@Model.Room.PricePerHour.ToString("C") x @hours.ToString("0.0")h)
+            </dd>
+            
+            <dt class="col-sm-4">Cel spotkania</dt>
+            <dd class="col-sm-8">@Model.Purpose</dd>
+            
+            <dt class="col-sm-4">Status</dt>
+            <dd class="col-sm-8">
+                @switch (Model.Status)
+                {
+                    case ConferenceRoomBooking.Models.ReservationStatus.Pending:
+                        <span class="badge bg-warning">Oczekuje na zatwierdzenie</span>
+                        break;
+                    case ConferenceRoomBooking.Models.ReservationStatus.Approved:
+                        <span class="badge bg-success">Zatwierdzona</span>
+                        break;
+                    case ConferenceRoomBooking.Models.ReservationStatus.Rejected:
+                        <span class="badge bg-danger">Odrzucona</span>
+                        break;
+                    case ConferenceRoomBooking.Models.ReservationStatus.Cancelled:
+                        <span class="badge bg-secondary">Anulowana</span>
+                        break;
+                }
+            </dd>
+            
+            <dt class="col-sm-4">Data utworzenia</dt>
+            <dd class="col-sm-8">@Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</dd>
+        </dl>
+        
+        <div class="mt-4">
+            @if (Model.Status == ConferenceRoomBooking.Models.ReservationStatus.Pending)
+            {
+                <form asp-action="ApproveReservation" asp-route-id="@Model.Id" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-success" onclick="return confirm('Czy na pewno chcesz zatwierdzić tę rezerwację?');">
+                        Zatwierdź rezerwację
+                    </button>
+                </form>
+                <form asp-action="RejectReservation" asp-route-id="@Model.Id" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Czy na pewno chcesz odrzucić tę rezerwację?');">
+                        Odrzuć rezerwację
+                    </button>
+                </form>
+            }
+            
+            <a asp-action="Dashboard" class="btn btn-secondary">Powrót do Dashboard</a>
+            <a asp-action="Reservations" class="btn btn-info">Wszystkie rezerwacje</a>
+        </div>
+    </div>
+</div>

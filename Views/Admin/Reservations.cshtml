@@ -1,0 +1,96 @@
+@model IEnumerable<ConferenceRoomBooking.Models.Reservation>
+@{
+    ViewData["Title"] = "Wszystkie rezerwacje";
+    var currentStatus = ViewBag.CurrentStatus as string;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<!-- Filtry -->
+<div class="row mb-3">
+    <div class="col-md-12">
+        <div class="btn-group" role="group">
+            <a asp-action="Reservations" asp-route-status="All" 
+               class="btn @(currentStatus == "All" ? "btn-primary" : "btn-outline-primary")">Wszystkie</a>
+            <a asp-action="Reservations" asp-route-status="Pending" 
+               class="btn @(currentStatus == "Pending" ? "btn-warning" : "btn-outline-warning")">Oczekujące</a>
+            <a asp-action="Reservations" asp-route-status="Approved" 
+               class="btn @(currentStatus == "Approved" ? "btn-success" : "btn-outline-success")">Zatwierdzone</a>
+            <a asp-action="Reservations" asp-route-status="Rejected" 
+               class="btn @(currentStatus == "Rejected" ? "btn-danger" : "btn-outline-danger")">Odrzucone</a>
+            <a asp-action="Reservations" asp-route-status="Cancelled" 
+               class="btn @(currentStatus == "Cancelled" ? "btn-secondary" : "btn-outline-secondary")">Anulowane</a>
+        </div>
+    </div>
+</div>
+
+@if (Model.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Użytkownik</th>
+                    <th>Sala</th>
+                    <th>Data rozpoczęcia</th>
+                    <th>Data zakończenia</th>
+                    <th>Status</th>
+                    <th>Utworzono</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var reservation in Model)
+                {
+                    <tr>
+                        <td>@reservation.Id</td>
+                        <td>@reservation.User.Email</td>
+                        <td>@reservation.Room.Name</td>
+                        <td>@reservation.StartTime.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>@reservation.EndTime.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>
+                            @switch (reservation.Status)
+                            {
+                                case ConferenceRoomBooking.Models.ReservationStatus.Pending:
+                                    <span class="badge bg-warning">Oczekuje</span>
+                                    break;
+                                case ConferenceRoomBooking.Models.ReservationStatus.Approved:
+                                    <span class="badge bg-success">Zatwierdzona</span>
+                                    break;
+                                case ConferenceRoomBooking.Models.ReservationStatus.Rejected:
+                                    <span class="badge bg-danger">Odrzucona</span>
+                                    break;
+                                case ConferenceRoomBooking.Models.ReservationStatus.Cancelled:
+                                    <span class="badge bg-secondary">Anulowana</span>
+                                    break;
+                            }
+                        </td>
+                        <td>@reservation.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>
+                            <a asp-action="ReservationDetails" asp-route-id="@reservation.Id" class="btn btn-sm btn-info">Szczegóły</a>
+                            
+                            @if (reservation.Status == ConferenceRoomBooking.Models.ReservationStatus.Pending)
+                            {
+                                <form asp-action="ApproveReservation" asp-route-id="@reservation.Id" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-success">Zatwierdź</button>
+                                </form>
+                                <form asp-action="RejectReservation" asp-route-id="@reservation.Id" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-danger">Odrzuć</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-info">
+        Brak rezerwacji spełniających wybrane kryteria.
+    </div>
+}
+
+<a asp-action="Dashboard" class="btn btn-secondary mt-3">Powrót do Dashboard</a>

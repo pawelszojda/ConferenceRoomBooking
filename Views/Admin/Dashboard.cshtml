@@ -1,0 +1,133 @@
+@{
+    ViewData["Title"] = "Panel Administratora";
+    var pendingReservations = ViewBag.PendingReservations as List<ConferenceRoomBooking.Models.Reservation>;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<!-- Statystyki -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Oczekujące rezerwacje</h5>
+                <h2 class="card-text">@pendingReservations.Count</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Zatwierdzone</h5>
+                <h2 class="card-text">@ViewBag.ApprovedReservationsCount</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Sale konferencyjne</h5>
+                <h2 class="card-text">@ViewBag.AvailableRooms / @ViewBag.TotalRooms</h2>
+                <small>dostępne / wszystkie</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-secondary">
+            <div class="card-body">
+                <h5 class="card-title">Użytkownicy</h5>
+                <h2 class="card-text">@ViewBag.TotalUsers</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Szybkie akcje -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Szybkie akcje</h5>
+            </div>
+            <div class="card-body">
+                <a asp-controller="ConferenceRooms" asp-action="Index" class="btn btn-primary">Zarządzaj salami</a>
+                <a asp-action="Reservations" class="btn btn-info">Wszystkie rezerwacje</a>
+                <a asp-action="Statistics" class="btn btn-success">Statystyki</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Oczekujące rezerwacje -->
+<div class="row">
+    <div class="col-md-12">
+        <h3>Rezerwacje oczekujące na zatwierdzenie</h3>
+        
+        @if (pendingReservations.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Użytkownik</th>
+                            <th>Sala</th>
+                            <th>Data rozpoczęcia</th>
+                            <th>Data zakończenia</th>
+                            <th>Cel</th>
+                            <th>Utworzono</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var reservation in pendingReservations)
+                        {
+                            <tr>
+                                <td>@reservation.Id</td>
+                                <td>@reservation.User.Email</td>
+                                <td>@reservation.Room.Name</td>
+                                <td>@reservation.StartTime.ToString("dd.MM.yyyy HH:mm")</td>
+                                <td>@reservation.EndTime.ToString("dd.MM.yyyy HH:mm")</td>
+                                <td>@(reservation.Purpose.Length > 30 ? reservation.Purpose.Substring(0, 30) + "..." : reservation.Purpose)</td>
+                                <td>@reservation.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="ReservationDetails" asp-route-id="@reservation.Id" class="btn btn-sm btn-info">Szczegóły</a>
+                                        <form asp-action="ApproveReservation" asp-route-id="@reservation.Id" method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Czy na pewno chcesz zatwierdzić tę rezerwację?');">Zatwierdź</button>
+                                        </form>
+                                        <form asp-action="RejectReservation" asp-route-id="@reservation.Id" method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Czy na pewno chcesz odrzucić tę rezerwację?');">Odrzuć</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                Brak oczekujących rezerwacji do zatwierdzenia.
+            </div>
+        }
+    </div>
+</div>

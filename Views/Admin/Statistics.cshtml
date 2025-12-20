@@ -1,0 +1,102 @@
+@{
+    ViewData["Title"] = "Statystyki";
+    var monthlyReservations = ViewBag.MonthlyReservations as List<dynamic>;
+    var popularRooms = ViewBag.PopularRooms as List<dynamic>;
+    var currentMonth = ViewBag.CurrentMonth as string;
+}
+
+<h1>@ViewData["Title"]</h1>
+<h4 class="text-muted">@currentMonth</h4>
+<hr />
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5>Rezerwacje w tym miesiącu</h5>
+            </div>
+            <div class="card-body">
+                @if (monthlyReservations != null && monthlyReservations.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Liczba</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in monthlyReservations)
+                            {
+                                <tr>
+                                    <td>
+                                        @switch ((ConferenceRoomBooking.Models.ReservationStatus)item.Status)
+                                        {
+                                            case ConferenceRoomBooking.Models.ReservationStatus.Pending:
+                                                <span class="badge bg-warning">Oczekujące</span>
+                                                break;
+                                            case ConferenceRoomBooking.Models.ReservationStatus.Approved:
+                                                <span class="badge bg-success">Zatwierdzone</span>
+                                                break;
+                                            case ConferenceRoomBooking.Models.ReservationStatus.Rejected:
+                                                <span class="badge bg-danger">Odrzucone</span>
+                                                break;
+                                            case ConferenceRoomBooking.Models.ReservationStatus.Cancelled:
+                                                <span class="badge bg-secondary">Anulowane</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td><strong>@item.Count</strong></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="text-muted">Brak rezerwacji w tym miesiącu.</p>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5>Najpopularniejsze sale</h5>
+            </div>
+            <div class="card-body">
+                @if (popularRooms != null && popularRooms.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Sala</th>
+                                <th>Liczba rezerwacji</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in popularRooms)
+                            {
+                                <tr>
+                                    <td>
+                                        <a asp-controller="ConferenceRooms" asp-action="Details" asp-route-id="@item.Room.Id">
+                                            @item.Room.Name
+                                        </a>
+                                    </td>
+                                    <td><strong>@item.Count</strong></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p class="text-muted">Brak zatwierdzonych rezerwacji.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<a asp-action="Dashboard" class="btn btn-secondary">Powrót do Dashboard</a>
