@@ -1,0 +1,67 @@
+@model ConferenceRoomBooking.ViewModels.CreateReservationViewModel
+@{
+    ViewData["Title"] = "Nowa rezerwacja";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="RoomId" class="form-label"></label>
+                <select asp-for="RoomId" class="form-select" asp-items="ViewBag.Rooms">
+                    <option value="">-- Wybierz salę --</option>
+                </select>
+                <span asp-validation-for="RoomId" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="StartTime" class="form-label"></label>
+                <input asp-for="StartTime" class="form-control" type="datetime-local" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="EndTime" class="form-label"></label>
+                <input asp-for="EndTime" class="form-control" type="datetime-local" />
+                <span asp-validation-for="EndTime" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="Purpose" class="form-label"></label>
+                <textarea asp-for="Purpose" class="form-control" rows="4" 
+                          placeholder="Np. Spotkanie zespołu projektowego, prezentacja dla klienta..."></textarea>
+                <span asp-validation-for="Purpose" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Utwórz rezerwację</button>
+                <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+            </div>
+        </form>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Informacje</h5>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li>Rezerwacja musi być zatwierdzona przez administratora</li>
+                    <li>Nie możesz zarezerwować sali na czas już zajęty</li>
+                    <li>Data rozpoczęcia musi być w przyszłości</li>
+                    <li>Możesz edytować rezerwację przed zatwierdzeniem</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

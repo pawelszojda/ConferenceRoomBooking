@@ -1,0 +1,54 @@
+@model IEnumerable<ConferenceRoomBooking.Models.ConferenceRoom>
+@{
+    ViewData["Title"] = "Sale konferencyjne";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@ViewData["Title"]</h1>
+        
+        @if (User.IsInRole("Admin"))
+        {
+            <p>
+                <a asp-action="Create" class="btn btn-success">Dodaj nową salę</a>
+            </p>
+        }
+        
+        <div class="row">
+            @foreach (var room in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@room.Name</h5>
+                            <p class="card-text">@room.Description</p>
+                            <ul class="list-unstyled">
+                                <li><strong>Pojemność:</strong> @room.Capacity osób</li>
+                                <li><strong>Cena:</strong> @room.PricePerHour.ToString("C") / godz.</li>
+                                <li><strong>Wyposażenie:</strong> @room.Equipment</li>
+                            </ul>
+                            <div class="d-flex justify-content-between">
+                                <a asp-action="Details" asp-route-id="@room.Id" class="btn btn-primary">Szczegóły</a>
+                                
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <div>
+                                        <a asp-action="Edit" asp-route-id="@room.Id" class="btn btn-warning btn-sm">Edytuj</a>
+                                        <a asp-action="Delete" asp-route-id="@room.Id" class="btn btn-danger btn-sm">Usuń</a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info">
+                Brak dostępnych sal konferencyjnych.
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,29 @@
+@model ConferenceRoomBooking.Models.ConferenceRoom
+@{
+    ViewData["Title"] = "Usuń salę";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3 class="text-danger">Czy na pewno chcesz usunąć tę salę?</h3>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">Nazwa</dt>
+    <dd class="col-sm-9">@Model.Name</dd>
+    
+    <dt class="col-sm-3">Opis</dt>
+    <dd class="col-sm-9">@Model.Description</dd>
+    
+    <dt class="col-sm-3">Pojemność</dt>
+    <dd class="col-sm-9">@Model.Capacity osób</dd>
+    
+    <dt class="col-sm-3">Cena</dt>
+    <dd class="col-sm-9">@Model.PricePerHour.ToString("C") / godz.</dd>
+</dl>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Usuń</button>
+    <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+</form>
