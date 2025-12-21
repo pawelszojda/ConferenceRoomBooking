@@ -136,7 +136,6 @@
 /Users/pawelszojda/Development/ConferenceRoomBooking/obj/Debug/net9.0/scopedcss/Views/Shared/_Layout.cshtml.rz.scp.css
 /Users/pawelszojda/Development/ConferenceRoomBooking/obj/Debug/net9.0/scopedcss/bundle/ConferenceRoomBooking.styles.css
 /Users/pawelszojda/Development/ConferenceRoomBooking/obj/Debug/net9.0/scopedcss/projectbundle/ConferenceRoomBooking.bundle.scp.css
-/Users/pawelszojda/Development/ConferenceRoomBooking/obj/Debug/net9.0/compressed/hdga3tcjoe-b9sayid5wm.gz
 /Users/pawelszojda/Development/ConferenceRoomBooking/obj/Debug/net9.0/compressed/ia02h69eyz-61n19gt1b8.gz
 /Users/pawelszojda/Development/ConferenceRoomBooking/obj/Debug/net9.0/compressed/1llgdfhqx0-xtxxf3hu2r.gz
 /Users/pawelszojda/Development/ConferenceRoomBooking/obj/Debug/net9.0/compressed/adsehz0zwj-bqjiyaj88i.gz
@@ -210,3 +209,4 @@
 /Users/pawelszojda/Development/ConferenceRoomBooking/obj/Debug/net9.0/ConferenceRoomBooking.pdb
 /Users/pawelszojda/Development/ConferenceRoomBooking/obj/Debug/net9.0/ConferenceRoomBooking.genruntimeconfig.cache
 /Users/pawelszojda/Development/ConferenceRoomBooking/obj/Debug/net9.0/ref/ConferenceRoomBooking.dll
+/Users/pawelszojda/Development/ConferenceRoomBooking/obj/Debug/net9.0/compressed/hdga3tcjoe-sp5l10ipar.gz

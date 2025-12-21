@@ -1,8 +1,130 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Strona główna";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Hero Section -->
+<div class="text-center mb-5">
+    <h1 class="display-4 mb-3">System Rezerwacji Sal Konferencyjnych</h1>
+    <p class="lead text-muted mb-4">
+        Profesjonalny system do zarządzania i rezerwacji sal konferencyjnych. 
+        Prosty, szybki i efektywny!
+    </p>
+    
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <a asp-controller="ConferenceRooms" asp-action="Index" class="btn btn-primary btn-lg me-2">
+            Przeglądaj sale
+        </a>
+        <a asp-controller="Reservations" asp-action="Create" class="btn btn-success btn-lg">
+            Utwórz rezerwację
+        </a>
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="Register" class="btn btn-primary btn-lg me-2">
+            Rozpocznij teraz
+        </a>
+        <a asp-controller="Account" asp-action="Login" class="btn btn-success btn-lg">
+            Zaloguj się
+        </a>
+    }
 </div>
+
+<!-- Features Section -->
+<div class="row mb-5">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <div class="mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16" style="color: #667eea;">
+                        <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                    </svg>
+                </div>
+                <h3 class="card-title">Łatwe rezerwacje</h3>
+                <p class="card-text">
+                    Zarezerwuj salę w kilka sekund. Intuicyjny interfejs pozwala na szybkie tworzenie i zarządzanie rezerwacjami.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <div class="mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-shield-check" viewBox="0 0 16 16" style="color: #11998e;">
+                        <path d="M5.338 1.59a61.44 61.44 0 0 0-2.837.856.481.481 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.725 10.725 0 0 0 2.287 2.233c.346.244.652.42.893.533.12.057.218.095.293.118a.55.55 0 0 0 .101.025.615.615 0 0 0 .1-.025c.076-.023.174-.061.294-.118.24-.113.547-.29.893-.533a10.726 10.726 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.775 11.775 0 0 1-2.517 2.453 7.159 7.159 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7.158 7.158 0 0 1-1.048-.625 11.777 11.777 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 62.456 62.456 0 0 1 5.072.56z"/>
+                        <path d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                    </svg>
+                </div>
+                <h3 class="card-title">Bezpieczny system</h3>
+                <p class="card-text">
+                    Zaawansowana autoryzacja i uwierzytelnianie. Twoje dane są bezpieczne dzięki ASP.NET Identity.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 text-center">
+            <div class="card-body">
+                <div class="mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16" style="color: #f5576c;">
+                        <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z"/>
+                    </svg>
+                </div>
+                <h3 class="card-title">Panel administratora</h3>
+                <p class="card-text">
+                    Kompleksowy dashboard z statystykami, zarządzaniem rezerwacjami i kontrolą nad wszystkimi salami.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stats Section (tylko dla zalogowanych) -->
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0 text-white">Szybki dostęp</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-4 mb-3">
+                            <a asp-controller="ConferenceRooms" asp-action="Index" class="text-decoration-none">
+                                <div class="p-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16" style="color: #667eea;">
+                                        <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1ZM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Z"/>
+                                        <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V1Zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3V1Z"/>
+                                    </svg>
+                                    <h5 class="mt-3">Sale konferencyjne</h5>
+                                    <p class="text-muted">Przeglądaj dostępne sale</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <a asp-controller="Reservations" asp-action="Index" class="text-decoration-none">
+                                <div class="p-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-calendar2-check" viewBox="0 0 16 16" style="color: #11998e;">
+                                        <path d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z"/>
+                                        <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V4z"/>
+                                    </svg>
+                                    <h5 class="mt-3">Moje rezerwacje</h5>
+                                    <p class="text-muted">Zarządzaj swoimi rezerwacjami</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <a asp-controller="Reservations" asp-action="Create" class="text-decoration-none">
+                                <div class="p-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="
+
+bi bi-plus-circle" viewBox="0 0 16 16" style="color: 
+#f5576c;"> <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/> <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/> </svg> <h5 class="mt-3">Nowa rezerwacja</h5> <p class="text-muted">Zarezerwuj salę teraz</p> </div> </a> </div> </div> </div> </div> </div> </div> }
+
+<!-- Info Section --> <div class="row"> <div class="col-md-12"> <div class="card"> <div class="card-body text-center"> <h3>Jak to działa?</h3> <div class="row mt-4"> <div class="col-md-3"> <div class="mb-3"> <span class="badge bg-primary" style="font-size: 2rem; width: 60px; height: 60px; line-height: 50px; border-radius: 50%;">1</span> </div> <h5>Zarejestruj się</h5> <p class="text-muted">Stwórz konto w systemie</p> </div> <div class="col-md-3"> <div class="mb-3"> <span class="badge bg-success" style="font-size: 2rem; width: 60px; height: 60px; line-height: 50px; border-radius: 50%;">2</span> </div> <h5>Wybierz salę</h5> <p class="text-muted">Przeglądaj dostępne sale</p> </div> <div class="col-md-3"> <div class="mb-3"> <span class="badge bg-info" style="font-size: 2rem; width: 60px; height: 60px; line-height: 50px; border-radius: 50%;">3</span> </div> <h5>Zarezerwuj</h5> <p class="text-muted">Wypełnij formularz rezerwacji</p> </div> <div class="col-md-3"> <div class="mb-3"> <span class="badge bg-warning" style="font-size: 2rem; width: 60px; height: 60px; line-height: 50px; border-radius: 50%;">4</span> </div> <h5>Czekaj na zatwierdzenie</h5> <p class="text-muted">Administrator zatwierdzi rezerwację</p> </div> </div> </div> </div> </div> </div> ````
